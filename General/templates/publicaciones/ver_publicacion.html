@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  {% comment %}Se muestra el titulo de la publicacion{% endcomment %}
+  <h1>{{ publicacion.titulo }}</h1>
+  {% comment %}Se crea el contenido de la publicacion{% endcomment %}
+  <div>{{ publicacion.contenido }}</div>
+  {% comment %}Se establece un margen de 4 unidades en la parte superior del elemento{% endcomment %}
+  <div class="mt-4">
+    {% comment %}Se muestra la cantidad de comentarios haciendo uso del metodo count{% endcomment %}
+    <h4>Comentarios ({{ comentarios.count }})</h4>
+    {% comment %}Se verifica si existen comentarios{% endcomment %}
+    {% if comentarios.count == 0 %}
+      {% comment %}Si no existen comentarios se agrega una card con un mensaje y un boton para agregar comentarios{% endcomment %}
+      <div class="card">
+        <div class="card-body row align-items-center justify-content-center" style="height: 6rem;">
+          <div class="col-auto row">
+            <div class="row justify-content-center">
+              <span class="col-auto">No Hay Comentarios</span>
+            </div>
+            <div class="row justify-content-center mt-2">
+              <a href="#!" class="btn btn-primary col-auto">Agregar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      {% comment %}En caso de que si existan comentarios se muestran usando el ciclo for{% endcomment %}
+      {% for comentario in comentarios %}
+        <div class="card">
+          <div class="card-body">
+            <figure>
+              <blockquote class="blockquote h6">
+                <p>{{ comentario.contenido }}</p>
+              </blockquote>
+              <figcaption class="blockquote-footer">
+                {{ comentario.autor }} <cite title="Source Title">({{ publicacion.fecha_creacion }})</cite>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endblock %}

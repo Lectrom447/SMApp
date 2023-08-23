@@ -1,0 +1,54 @@
+{% extends 'base.html' %} {% block body %}
+<h1>Publicaciones Recientes</h1>
+{% comment %} Se crea un elemento de tipo Fila en el que se indica que sus elementos estaran alineados en el centro {% endcomment %}
+<div class="row justify-content-center">
+  {% comment %} Se crea un ciclo for para iterar sobre la lista de publicaciones {% endcomment %}
+  {% for publicacion in publicaciones %}
+  {% comment %} Se crea un elemento de tipo Card que tomara 8 de los 12 espacios disponibles de su padre (row) {% endcomment %}
+  <div class="card col-lg-8">
+    {% comment %} <img src="..." class="card-img-top" alt="..." /> {% endcomment%}
+    {% comment %} Se crea el cuerpo del elemento Card {% endcomment %}
+    <div class="card-body">
+      {% comment %} Se estable el titulo que tendra la Card el cual se extrae desde el elemnto que se esta iterando {% endcomment %}
+      <h5 class="card-title">{{publicacion.titulo}}</h5>
+      {% comment %} Se establece el texto que tendra la card y  usando truncatechars se limita la cantidad de texto que se esta mosrando, en este caso a 200 {% endcomment %}
+      <p class="card-text">{{publicacion.contenido|truncatechars:200}}</p>
+        {% comment %} Se crea un elemento de tipo Fila en el que se indica que sus elementos estaran alineados en lugares opuestos {% endcomment %}
+      <div class="row  justify-content-between">
+        {% comment %} Se define que este elemento solo tomara el espacio que necesite {% endcomment %}
+        <div class="col-auto">
+          <form
+            action="{% url 'add_publicacion_like' publicacion.uuid %}"
+            method="post"
+          >
+            {% csrf_token %}
+            {% comment %} Se crea un boton con estilos de bootstrap {% endcomment %}
+            <button type="submit" class="btn btn-outline-info">
+              {% comment %} Se agrega un icono de font awesome {% endcomment %}
+              <i class="fa-solid fa-thumbs-up"></i>
+              {{publicacion.me_gusta}}
+            </button>
+          </form>
+
+        </div>
+        {% comment %} Se define que este elemento solo tomara el espacio que necesite {% endcomment %}
+
+        <div class="col-auto">
+            {% comment %} Se crea un enlace con estilos de bootstrap {% endcomment %}
+
+          <a
+            href="{% url 'ver_publicacion'  publicacion.uuid %}"
+            class="btn btn-primary px-4"
+            >
+            Ver
+              {% comment %} Se agrega un icono de font awesome {% endcomment %}
+            <i class="fa-solid fa-arrow-right"></i>
+            </a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
